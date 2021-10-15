@@ -1,4 +1,3 @@
 # KDOB
 
-Proof of Editing oepe
-kek
+Proof of Editing

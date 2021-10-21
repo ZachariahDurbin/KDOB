@@ -2,12 +2,17 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
-const dotenv = require('dotenv');
 const { MongoClient } = require('mongodb');
 //Setting up Environment Variables...
+const dotenv = require('dotenv');
 dotenv.config();
 const { DB_URI, DB_NAME } = process.env;
 
+
+//Connecting to the MongoDB Database...
+const client = new MongoClient(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect();
+const database = client.db(DB_NAME);
 
 
 //Schemas used for Queries
@@ -23,7 +28,6 @@ var schema = buildSchema(`
 `);
 
 
-
 // The root provides a resolver function for each API endpoint
 var root = {
   hello: () => {
@@ -32,32 +36,20 @@ var root = {
   kek: () => {
     return 3.3;
   },
-  createUser: async({ name }, { context }) =>{
+  createUser: async({ name }) =>{
     const newUser = {
       ...name,
       createdAt: new Date().toISOString(),
     }
-    console.log(name);
-    console.log(context);
-    const client = new MongoClient(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-    await client.connect();
-    const result = await client.db(DB_NAME).collection('Users').insert(newUser);
-    client.close();
-    console.log(result);
-
+    const result = await database.collection('Users').insertOne(newUser);
+    console.log("Added!");
     return "Added!";
   }
 };
 
 
-
 //Async Start Function
 const start = async () => {
-
-  //Connecting to the MongoDB Database...
-  const client = new MongoClient(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-  await client.connect();
-  const db = client.db(DB_NAME);
   
 
   //Starting Express...
@@ -71,11 +63,10 @@ const start = async () => {
   }));
 
 
-  //Listening to Port 400, and Giving User Link to Connect...
+  //Listening to Port 4000, and Giving User Link to Connect...
   app.listen(4000);
   console.log('🚀 KDOB is at least running, right? Let\'s make sure it\'s actually working: http://localhost:4000/');
 }
-
 
 
 //Let's Go!

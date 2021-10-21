@@ -14,6 +14,7 @@ const { DB_URI, DB_NAME } = process.env;
 var schema = buildSchema(`
   type Query {
     hello: String
+    kek: Float
   }
 
   type Mutation {
@@ -27,6 +28,9 @@ var schema = buildSchema(`
 var root = {
   hello: () => {
     return 'Hello world!';
+  },
+  kek: () => {
+    return 3.3;
   },
   createUser: async({ name }, { context }) =>{
     const newUser = {

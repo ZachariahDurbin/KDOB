@@ -1,24 +1,43 @@
 //Creating all Constant Variables
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-const { buildSchema } = require('graphql');
-const { MongoClient } = require('mongodb');
+const schema = require('./schema/graphql/user');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 //Setting up Environment Variables...
 const dotenv = require('dotenv');
 dotenv.config();
-const { DB_URI, DB_NAME } = process.env;
+const { DB_URI } = process.env;
 
 
 //Connecting to the MongoDB Database...
-const client = new MongoClient(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect();
-const database = client.db(DB_NAME);
+mongoose.connect(DB_URI);
+mongoose.connection.once('open', ()=>{
+  console.log("We have made database connection!");
+});
 
 
+var app = express(); //Starting Express...
+
+//Using Home Directory for GraphQL Basic Testing Center...
+app.use('/graphql', graphqlHTTP({
+  schema,
+  graphiql: true,
+}));
+
+app.use('/', function(req,res){
+  res.json({"foo": "bar"})
+});
+//Listening to Port 4000, and Giving User Link to Connect...
+app.listen(4000);
+console.log('🚀 KDOB is at least running, right? Let\'s make sure it\'s actually working: http://localhost:4000/');
+
+
+/*
 //Schemas used for Queries
 var schema = buildSchema(`
   type Query {
+    hello: String!
   }
 
   type Mutation {
@@ -52,6 +71,9 @@ var schema = buildSchema(`
 
 // The root provides a resolver function for each API endpoint
 var root = {
+  hello: ()=>{
+    return "sup dawg"
+  },
 
   //Sign Up Function
   signUp: async ({ input }) =>{
@@ -91,24 +113,4 @@ var root = {
     }
   }
 };
-
-
-//Async Start Function
-const start = async () => {
-  var app = express(); //Starting Express...
-
-  //Using Home Directory for GraphQL Basic Testing Center...
-  app.use('/', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-  }));
-
-  //Listening to Port 4000, and Giving User Link to Connect...
-  app.listen(4000);
-  console.log('🚀 KDOB is at least running, right? Let\'s make sure it\'s actually working: http://localhost:4000/');
-}
-
-
-//Let's Go!
-start();
+*/

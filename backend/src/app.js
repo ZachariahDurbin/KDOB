@@ -1,9 +1,6 @@
 //Creating all Constant Variables
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/graphql/user');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 //Setting up Environment Variables...
 const dotenv = require('dotenv');
 dotenv.config();
@@ -19,11 +16,11 @@ mongoose.connection.once('open', ()=>{
 
 var app = express(); //Starting Express...
 
-//Using Home Directory for GraphQL Basic Testing Center...
-app.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true,
-}));
+const userRouter = require('./router/user.router');
+
+
+
+app.use('/user', userRouter);
 
 app.use('/', function(req,res){
   res.json({"foo": "bar"})

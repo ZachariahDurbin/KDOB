@@ -1,6 +1,6 @@
 {
   "name": "kdob-backend",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "GraphQL + Express backend for Online Backgammon",
   "main": "app.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"
   },
-  "author": "Zachariah Durbin",
+  "author": "Zachariah Durbin and Richard Kjellander",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

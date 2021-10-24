@@ -17,14 +17,16 @@ mongoose.connection.once('open', ()=>{
 var app = express(); //Starting Express...
 
 const userRouter = require('./router/user.router');
+const motdRouter = require('./router/motd.router');
 
 
 
 app.use('/user', userRouter);
-
+app.use('/motd', motdRouter);
 app.use('/', function(req,res){
   res.json({"foo": "bar"})
 });
+
 //Listening to Port 4000, and Giving User Link to Connect...
 app.listen(4000);
 console.log('🚀 KDOB is at least running, right? Let\'s make sure it\'s actually working: http://localhost:4000/');

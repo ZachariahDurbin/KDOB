@@ -11,9 +11,13 @@ router.use('/graphql', graphqlHTTP({
     graphiql: true,
 }));
 
-router.use('/', function(req,res){
-    res.json({"bar": "foo"})
-});
+router.use('/',
+    graphqlHTTP({
+        schema,
+        graphiql: false,
+    })
+    //res.json({"bar": "foo"})
+);
 
 
 module.exports = router;

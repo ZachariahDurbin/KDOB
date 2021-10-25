@@ -1,8 +1,8 @@
 const graphql = require('graphql');
 const bcrypt = require('bcryptjs');
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } = graphql;
-const MongoBoard = require('../mongo/board');
-const LogicBoard = require('../businesslogic/board');
+const BoardMongo = require('../mongo/board');
+const BoardLogic = require('../businesslogic/board');
 
 /********************************GRAPHQL TYPES********************************/
 
@@ -76,6 +76,7 @@ const GameType = new GraphQLObjectType({
             type: PlayerType,
             resolve(parent, args){ return parent.players }
         },
+        turn: { type: GraphQLString },
         board: {
             type: BoardType,
             resolve(parent, args){ return parent.positions }
@@ -92,7 +93,7 @@ const BoardQueries = {
         type: GameType,
         args: { id: { type: GraphQLID } },
         resolve(parent, args){
-            return Board.findById(args.id);
+            return BoardMongo.findById(args.id);
         }
     },
 
@@ -100,7 +101,7 @@ const BoardQueries = {
     getAll:{
         type: GameType,
         resolve(parent, args){
-            return Board.find({})
+            return BoardMongo.find({})
         }
     }
 }
@@ -116,7 +117,7 @@ const BoardMutations = {
             player2: { type: GraphQLString }
         },
         resolve(parent, args){
-            let board = new MongoBoard(LogicBoard.createNewBoard(args)); //Call to board logic
+            let board = new BoardMongo(BoardLogic.createNewBoard(args)); //Call to board logic
             return board.save();
         }
     },
@@ -130,14 +131,9 @@ const BoardMutations = {
             newPosition: { type: GraphQLString }
         },
         resolve(parent, args){
-            let board = MongoBoard.findById(args.id);
-            console.log(args);
-            //let board = new Board({
-            //    players: { 
-            //        player1: args.player1,
-            //        player2: args.player2
-            //    },
-            return MongoBoard.findById(args.id);
+            let board = BoardMongo.findById(args.id);
+            BoardLogic.updateBoard(board, args);
+            return BoardMongo.findById(args.id);
         }
     }
 }

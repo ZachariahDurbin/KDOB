@@ -36,7 +36,6 @@ const createNewBoard = (args) =>{
     }
 }
 
-
 module.exports = {
     createNewBoard
 }

@@ -22,11 +22,13 @@ app.use(cors()) // Use this after the variable declaration
 
 const userRouter = require('./router/user.router');
 const motdRouter = require('./router/motd.router');
+const boardRouter = require('./router/board.router');
 
 
 
 app.use('/user', userRouter);
 app.use('/motd', motdRouter);
+app.use('/board', boardRouter);
 /*
 app.use('/', function(req,res){
   res.json({"foo": "bar"})

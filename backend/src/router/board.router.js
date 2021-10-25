@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('../graphql/user');
+const schema = require('../graphql/board');
 
 
 
@@ -11,13 +11,9 @@ router.use('/graphql', graphqlHTTP({
     graphiql: true,
 }));
 
-router.use('/',
-    graphqlHTTP({
-        schema,
-        graphiql: false,
-    })
-    //res.json({"bar": "foo"})
-);
-
-
+router.use('/', function(req,res){
+    res.json({"Board check!":"lol"})
+});
+ 
+  
 module.exports = router;

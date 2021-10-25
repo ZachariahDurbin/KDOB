@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('../schema/graphql/motd');
+const schema = require('../graphql/motd');
 
 
 

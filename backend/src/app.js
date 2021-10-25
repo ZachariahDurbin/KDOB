@@ -1,6 +1,8 @@
 //Creating all Constant Variables
 const express = require('express');
 const mongoose = require('mongoose');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./graphql/initialization');
 //Setting up Environment Variables...
 const dotenv = require('dotenv');
 dotenv.config();
@@ -16,24 +18,18 @@ mongoose.connection.once('open', ()=>{
 
 var app = express(); //Starting Express...
 
-var cors = require('cors')
+var cors = require('cors');
 
-app.use(cors()) // Use this after the variable declaration
+app.use(cors()); // Use this after the variable declaration
+app.use('graphql', graphqlHTTP({
+  schema,
+  graphiql: false
+}))
+app.use('/graphql-sandbox', graphqlHTTP({
+  schema,
+  graphiql: true
+}));
 
-const userRouter = require('./router/user.router');
-const motdRouter = require('./router/motd.router');
-const boardRouter = require('./router/board.router');
-
-
-
-app.use('/user', userRouter);
-app.use('/motd', motdRouter);
-app.use('/board', boardRouter);
-/*
-app.use('/', function(req,res){
-  res.json({"foo": "bar"})
-});
-*/
 //Listening to Port 4000, and Giving User Link to Connect...
 app.listen(4000);
 console.log('🚀 KDOB is at least running, right? Let\'s make sure it\'s actually working: http://localhost:4000/');

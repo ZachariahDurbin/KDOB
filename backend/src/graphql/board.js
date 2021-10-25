@@ -209,7 +209,6 @@ const GameType = new GraphQLObjectType({
         players: { 
             type: PlayerType,
             resolve(parent, args){
-                console.log(parent)
                 return parent.players;
             }
         },
@@ -222,181 +221,173 @@ const GameType = new GraphQLObjectType({
     })
 });
 
-const Query = new GraphQLObjectType({
-    name: 'GameQueries',
-    fields: {
-        getBoard:{
-            type: GameType,
-            args: { 
-                id: { type: GraphQLID } 
-            },
-            resolve(parent, args){
-                console.log(args.id);
-                console.log(Board.findById(args.id));
-                return Board.findById(args.id);
-            }
+const BoardQueries = {
+    getBoard:{
+        type: GameType,
+        args: { 
+            id: { type: GraphQLID } 
         },
-        getAll:{
-            type: GameType,
-            resolve(parent, args){
-                return Board.find({})
-            }
+        resolve(parent, args){
+            return Board.findById(args.id);
         }
-    } 
-});
-
-const Mutation = new GraphQLObjectType({
-    name: 'GameMutations',
-    fields: {
-        newBoard: {
-            type: GameType,
-            args: {
-                player1: {type: GraphQLString},
-                player2: { type: GraphQLString }
-            },
-            resolve(parent, args){
-                let board = new Board({
-                    players: { 
-                        player1: args.player1,
-                        player2: args.player2
-                    },
-                    positions: {
-                        position1: {
-                            color: "white",
-                            amount: 2
-                        },
-                        position2: {
-                            color: null,
-                            amount: 0
-                        },
-                        position3: {
-                            color: null,
-                            amount: 0
-                        },
-                        position4: {
-                            color: null,
-                            amount: 0
-                        },
-                        position5: {
-                            color: null,
-                            amount: 0
-                        },
-                        position6: {
-                            color: "black",
-                            amount: 5
-                        },
-                        position7: {
-                            color: "whte",
-                            amount: 0
-                        },
-                        position8: {
-                            color: "black",
-                            amount: 3
-                        },
-                        position9: {
-                            color: null,
-                            amount: 0
-                        },
-                        position10: {
-                            color: null,
-                            amount: 0
-                        },
-                        position11: {
-                            color: null,
-                            amount: 0
-                        },
-                        position12: {
-                            color: "white",
-                            amount: 5
-                        },
-                        position13: {
-                            color: "black",
-                            amount: 5
-                        },
-                        position14: {
-                            color: null,
-                            amount: 0
-                        },
-                        position15: {
-                            color: null,
-                            amount: 0
-                        },
-                        position16: {
-                            color: null,
-                            amount: 0
-                        },
-                        position17: {
-                            color: "white",
-                            amount: 3
-                        },
-                        position18: {
-                            color: null,
-                            amount: 0
-                        },
-                        position19: {
-                            color: "white",
-                            amount: 5
-                        },
-                        position20: {
-                            color: null,
-                            amount: 0
-                        },
-                        position21: {
-                            color: null,
-                            amount: 0
-                        },
-                        position22: {
-                            color: null,
-                            amount: 0
-                        },
-                        position23: {
-                            color: null,
-                            amount: 0
-                        },
-                        position24: {
-                            color: "black",
-                            amount: 2
-                        },
-                        whitebar: {
-                            amount: 0
-                        },
-                        blackbar: {
-                            amount: 0
-                        },
-                        whiteremoval: {
-                            amount: 0
-                        },
-                        blackremoval: {
-                            amount: 0
-                        }
-                    }
-                })
-                //console.log(board)
-                return board.save();
-            }
-        },
-        updateBoard: {
-            type: GameType,
-            args: {
-                id: { type: GraphQLID },
-                oldPosition: { type: GraphQLString },
-                newPosition: { type: GraphQLString }
-            },
-            resolve(parent, args){
-                let board = Board.findById(args.id);
-                console.log(args);
-                //let board = new Board({
-                //    players: { 
-                //        player1: args.player1,
-                //        player2: args.player2
-                //    },
-                return Board.findById(args.id);
-            }
+    },
+    getAll:{
+        type: GameType,
+        resolve(parent, args){
+            return Board.find({})
         }
     }
-})
+}
 
-module.exports = new GraphQLSchema({
-    query: Query,
-    mutation: Mutation
-});
+const BoardMutations = {
+    newBoard: {
+        type: GameType,
+        args: {
+            player1: {type: GraphQLString},
+            player2: { type: GraphQLString }
+        },
+        resolve(parent, args){
+            let board = new Board({
+                players: { 
+                    player1: args.player1,
+                    player2: args.player2
+                },
+                positions: {
+                    position1: {
+                        color: "white",
+                        amount: 2
+                    },
+                    position2: {
+                        color: null,
+                        amount: 0
+                    },
+                    position3: {
+                        color: null,
+                        amount: 0
+                    },
+                    position4: {
+                        color: null,
+                        amount: 0
+                    },
+                    position5: {
+                        color: null,
+                        amount: 0
+                    },
+                    position6: {
+                        color: "black",
+                        amount: 5
+                    },
+                    position7: {
+                        color: "whte",
+                        amount: 0
+                    },
+                    position8: {
+                        color: "black",
+                        amount: 3
+                    },
+                    position9: {
+                        color: null,
+                        amount: 0
+                    },
+                    position10: {
+                        color: null,
+                        amount: 0
+                    },
+                    position11: {
+                        color: null,
+                        amount: 0
+                    },
+                    position12: {
+                        color: "white",
+                        amount: 5
+                    },
+                    position13: {
+                        color: "black",
+                        amount: 5
+                    },
+                    position14: {
+                        color: null,
+                        amount: 0
+                    },
+                    position15: {
+                        color: null,
+                        amount: 0
+                    },
+                    position16: {
+                        color: null,
+                        amount: 0
+                    },
+                    position17: {
+                        color: "white",
+                        amount: 3
+                    },
+                    position18: {
+                        color: null,
+                        amount: 0
+                    },
+                    position19: {
+                        color: "white",
+                        amount: 5
+                    },
+                    position20: {
+                        color: null,
+                        amount: 0
+                    },
+                    position21: {
+                        color: null,
+                        amount: 0
+                    },
+                    position22: {
+                        color: null,
+                        amount: 0
+                    },
+                    position23: {
+                        color: null,
+                        amount: 0
+                    },
+                    position24: {
+                        color: "black",
+                        amount: 2
+                    },
+                    whitebar: {
+                        amount: 0
+                    },
+                    blackbar: {
+                        amount: 0
+                    },
+                    whiteremoval: {
+                        amount: 0
+                    },
+                    blackremoval: {
+                        amount: 0
+                    }
+                }
+            })
+            return board.save();
+        }
+    },
+    updateBoard: {
+        type: GameType,
+        args: {
+            id: { type: GraphQLID },
+            oldPosition: { type: GraphQLString },
+            newPosition: { type: GraphQLString }
+        },
+        resolve(parent, args){
+            let board = Board.findById(args.id);
+            console.log(args);
+            //let board = new Board({
+            //    players: { 
+            //        player1: args.player1,
+            //        player2: args.player2
+            //    },
+            return Board.findById(args.id);
+        }
+    }
+}
+
+
+module.exports = {
+    query: BoardQueries,
+    mutation: BoardMutations
+}

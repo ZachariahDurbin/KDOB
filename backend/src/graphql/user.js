@@ -15,42 +15,36 @@ const UserType = new GraphQLObjectType({
     })
 });
 
-const Query = new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-        user:{
-            type: UserType,
-            args: { name: { type: GraphQLString } },
-            resolve(parent, args){
-                return User.findOne({ name: args.name});
-            }
+const UserQueries = {
+    user:{
+        type: UserType,
+        args: { name: { type: GraphQLString } },
+        resolve(parent, args){
+            return User.findOne({ name: args.name});
         }
     }
-});
+}
 
-const Mutation = new GraphQLObjectType({
-    name: 'Mutation',
-    fields: {
-        addUser: {
-            type: UserType,
-            args: {
-                name: { type: GraphQLString },
-                email: { type: GraphQLString },
-                password: { type: GraphQLString }
-            },
-            resolve(parent, args){
-                let user = new User({
-                    name: args.name,
-                    email: args.email,
-                    password: args.password
-                });
-                return user.save();
-            }
+const UserMutations = {
+    addUser: {
+        type: UserType,
+        args: {
+            name: { type: GraphQLString },
+            email: { type: GraphQLString },
+            password: { type: GraphQLString }
+        },
+        resolve(parent, args){
+            let user = new User({
+                name: args.name,
+                email: args.email,
+                password: args.password
+            });
+            return user.save();
         }
     }
-})
+}
 
-module.exports = new GraphQLSchema({
-    query: Query,
-    mutation: Mutation
-});
+module.exports = {
+    query: UserQueries,
+    mutation: UserMutations
+}

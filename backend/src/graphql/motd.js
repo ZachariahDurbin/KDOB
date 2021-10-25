@@ -14,41 +14,35 @@ const motdType = new GraphQLObjectType({
     })
 });
 
-const Query = new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-        motd:{
-            type: motdType,
-            args: { date: { type: GraphQLString } },
-            resolve(parent, args){
-                return Motd.findOne({ date: args.date});
+const MotdQueries = {
+    motd:{
+        type: motdType,
+        args: { date: { type: GraphQLString } },
+        resolve(parent, args){
+            return Motd.findOne({ date: args.date});
 
-            }
         }
     }
-});
+};
 
-const Mutation = new GraphQLObjectType({
-    name: 'Mutation',
-    fields: {
-        addMotd: {
-            type: motdType,
-            args: {
-                date: { type: GraphQLString },
-                message: { type: GraphQLString }
-            },
-            resolve(parent, args){
-                let motd = new Motd({
-                    date: args.date,
-                    message: args.message
-                });
-                return motd.save();
-            }
+const MotdMutations = {
+    addMotd: {
+        type: motdType,
+        args: {
+            date: { type: GraphQLString },
+            message: { type: GraphQLString }
+        },
+        resolve(parent, args){
+            let motd = new Motd({
+                date: args.date,
+                message: args.message
+            });
+            return motd.save();
         }
     }
-})
+};
 
-module.exports = new GraphQLSchema({
-    query: Query,
-    mutation: Mutation
-});
+module.exports = {
+    query: MotdQueries,
+    mutation: MotdMutations
+}

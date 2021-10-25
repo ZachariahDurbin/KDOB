@@ -18,9 +18,9 @@ mutation addUser($name: String!, $email: String!, $password: String!){
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
 
-  const name = "haha";
-  const email = "haha";
-  const password = "haha";
+  const name = "Will Kjellander";
+  const email = "will@gmail.com";
+  const password = "uh no one saw that last one";
   const [addUser, {data, error, loading}] = useMutation(mutation_test);
   
   if(data){
@@ -28,7 +28,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   }
   
   const onSubmit = () =>{
-    addUser({variables: {name, email, password}})
+    addUser({variables: { name, email, password } });
   }
   return (
     <View style={styles.container}>

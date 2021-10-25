@@ -1,6 +1,6 @@
 
 const createNewBoard = (args) =>{
-    let newBoard = {
+    return {
         players: { player1: args.player1, player2: args.player2
         },
         positions: {
@@ -34,7 +34,6 @@ const createNewBoard = (args) =>{
             blackremoval: {                 amount: 0 }
         }
     }
-    return newBoard;
 }
 
 

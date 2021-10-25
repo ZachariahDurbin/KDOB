@@ -21,10 +21,10 @@ var app = express(); //Starting Express...
 var cors = require('cors');
 
 app.use(cors()); // Use this after the variable declaration
-app.use('graphql', graphqlHTTP({
+app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: false
-}))
+}));
 app.use('/graphql-sandbox', graphqlHTTP({
   schema,
   graphiql: true

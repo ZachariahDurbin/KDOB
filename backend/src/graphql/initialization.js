@@ -4,6 +4,7 @@ const board = require('./board');
 const motd = require('./motd');
 const user = require('./user');
 
+//Queries exported to initialization
 const query = new GraphQLObjectType({
     name: 'RootQuery',
     fields:{
@@ -13,6 +14,7 @@ const query = new GraphQLObjectType({
     }
 });
 
+//Mutations exported to initialization
 const mutation = new GraphQLObjectType({
     name: 'RootMutation',
     fields:{

@@ -45,7 +45,6 @@ const UserMutations = {
             password: { type: GraphQLString }
         },
         resolve(parent, args){
-            console.log('made it here');
             let user = new UserMongo(UserLogic.createNewUser(args)); //Call to board logic
             return user.save();
         }

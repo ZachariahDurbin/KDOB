@@ -71,35 +71,6 @@ var schema = buildSchema(`
 `);
 
 
-// The root provides a resolver function for each API endpoint
-var root = {
-  hello: ()=>{
-    return "sup dawg"
-  },
-
-  //Sign Up Function
-  signUp: async ({ input }) =>{
-    const hashedPassword = bcrypt.hashSync(input.password); //Hash Password
-    console.log("Do they match? " + bcrypt.compareSync(input.password, hashedPassword)); //Proving hash is correct
-    const newUser = {
-      ...input,
-      password: hashedPassword
-    }
-    const result = await database.collection('Users').insertOne(newUser); //Inputs newUser into Database
-
-    if(!result.acknowledged)throw new Error('Something went wrong with creation'); //If a problem occurs, throw error
-    
-    //If the process works, return new user to client
-    return {
-      user: {
-        ...newUser,
-        id : newUser._id
-      },
-      token: 'token'
-    }
-    
-  },
-
   //Sign In Function
   signIn: async ({ input }) => {
     const foundUser = await database.collection('Users').findOne({ email: input.email}); //Attempts to pull credentials from database via email...

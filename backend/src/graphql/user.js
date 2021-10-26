@@ -1,8 +1,8 @@
 const graphql = require('graphql');
 const { buildResolveInfo } = require('graphql/execution/execute');
-const bcrypt = require('bcryptjs');
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
-const User = require('../mongo/user');
+const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
+const UserMongo = require('../mongo/user');
+const UserLogic = require('../businesslogic/user');
 
 
 const UserType = new GraphQLObjectType({
@@ -20,7 +20,18 @@ const UserQueries = {
         type: UserType,
         args: { name: { type: GraphQLString } },
         resolve(parent, args){
-            return User.findOne({ name: args.name});
+            return UserMongo.findOne({ name: args.name});
+        }
+    },
+
+    signIn:{
+        type: UserType,
+        args: { 
+            email: { type: GraphQLString },
+            password: { type: GraphQLString }
+        },
+        resolve(parents, args){
+            
         }
     }
 }
@@ -34,11 +45,8 @@ const UserMutations = {
             password: { type: GraphQLString }
         },
         resolve(parent, args){
-            let user = new User({
-                name: args.name,
-                email: args.email,
-                password: args.password
-            });
+            console.log('made it here');
+            let user = new UserMongo(UserLogic.createNewUser(args)); //Call to board logic
             return user.save();
         }
     }

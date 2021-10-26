@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 const bcrypt = require('bcryptjs');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLID, GraphQLInt } = graphql;
 const BoardMongo = require('../mongo/board');
 const BoardLogic = require('../businesslogic/board');
 
@@ -77,9 +77,11 @@ const GameType = new GraphQLObjectType({
             resolve(parent, args){ return parent.players }
         },
         turn: { type: GraphQLString },
-        board: {
-            type: BoardType,
-            resolve(parent, args){ return parent.positions }
+        board: { 
+            type: new GraphQLList(PositionType),
+            resolve(parent, args){
+                return parent.board
+            }
         }
     })
 });
@@ -127,13 +129,12 @@ const BoardMutations = {
         type: GameType,
         args: {
             id: { type: GraphQLID },
-            oldPosition: { type: GraphQLString },
-            newPosition: { type: GraphQLString }
+            oldPosition: { type: GraphQLInt },
+            newPosition: { type: GraphQLInt }
         },
-        resolve(parent, args){
-            let board = BoardMongo.findById(args.id);
-            BoardLogic.updateBoard(board, args);
-            return BoardMongo.findById(args.id);
+        async resolve(parent, args){
+            let board = BoardLogic.updateBoard(await BoardMongo.findById(args.id),args);
+            return board.save();
         }
     }
 }

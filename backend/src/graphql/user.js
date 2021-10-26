@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
 const User = require('../mongo/user');
 
-
+// Creates a new object type, usertype
 const UserType = new GraphQLObjectType({
     name: 'user',
     fields: () => ({
@@ -14,7 +14,7 @@ const UserType = new GraphQLObjectType({
         password: { type: GraphQLString }
     })
 });
-
+//creates a querry to return field values
 const UserQueries = {
     user:{
         type: UserType,
@@ -24,7 +24,7 @@ const UserQueries = {
         }
     }
 }
-
+//function to create a variable
 const UserMutations = {
     addUser: {
         type: UserType,
@@ -43,7 +43,7 @@ const UserMutations = {
         }
     }
 }
-
+//lets our system know that these functions are querries and schemas
 module.exports = {
     query: UserQueries,
     mutation: UserMutations

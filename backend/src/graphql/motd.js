@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
 const Motd = require('../mongo/motd');
 
-
+// Creates a new object type, usertype
 const motdType = new GraphQLObjectType({
     name: 'motd',
     fields: () => ({
@@ -13,7 +13,7 @@ const motdType = new GraphQLObjectType({
         message: { type: GraphQLString },
     })
 });
-
+//creates a querry to return field values
 const MotdQueries = {
     motd:{
         type: motdType,
@@ -24,7 +24,7 @@ const MotdQueries = {
         }
     }
 };
-
+//function to create a variabl
 const MotdMutations = {
     addMotd: {
         type: motdType,
@@ -42,6 +42,7 @@ const MotdMutations = {
     }
 };
 
+//lets our system know that these functions are querries and schemas
 module.exports = {
     query: MotdQueries,
     mutation: MotdMutations

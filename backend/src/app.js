@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphql/initialization');
+const jwt = require('express-jwt')
+
 //Setting up Environment Variables...
 const dotenv = require('dotenv');
 dotenv.config();
@@ -14,6 +16,13 @@ mongoose.connect(DB_URI);
 mongoose.connection.once('open', ()=>{
   console.log("We have made database connection!");
 });
+
+// authentication middleware
+const authMiddleware = jwt({
+  secret: 'securesecret'
+})
+
+app.use(authMiddleware)
 
 
 var app = express(); //Starting Express...

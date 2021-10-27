@@ -11,7 +11,8 @@ const UserType = new GraphQLObjectType({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
         email: { type: GraphQLString },
-        password: { type: GraphQLString }
+        password: { type: GraphQLString },
+        jwtToken: { type:GraphQLString }
     })
 });
 //creates a querry to return field values

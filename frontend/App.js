@@ -7,6 +7,10 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { client } from './apollo';
 import HomeScreen from './screens/HomeScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import SignInScreen from './screens/SignInScreen';
+import BoardScreen from './screens/BoardScreen';
+import DragScreen from './screens/DragScreen';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -58,6 +62,37 @@ export default function App() {
               <Stack.Screen
                 name="HomeScreen"
                 component={HomeScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="SignUpScreen"
+                component={SignUpScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="SignInScreen"
+                component={SignInScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="BoardScreen"
+                component={BoardScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="DragScreen"
+                component={DragScreen}
+                options={{
+                  headerShown: false
+                }}
               />
             </Stack.Navigator>
           </SafeAreaProvider>

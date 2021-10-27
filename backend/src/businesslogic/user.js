@@ -7,6 +7,7 @@ const createNewUser = (args) =>{
         name: args.name,
         email: args.email,
         password: hashedPassword,
+        jwtToken: jwt.sign(),
     }
 }
 

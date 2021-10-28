@@ -34,6 +34,18 @@ const UserQueries = {
         resolve(parents, args){
             
         }
+    },
+
+    //USE THIS ONE THIS IS OUR TEST
+    checkJWT:{
+        type: UserType,
+        args: {
+            id: { type: GraphQLString },
+            jwtToken: { type: GraphQLString }
+        },
+        resolve(parents, args){
+
+        }
     }
 }
 //function to create a variable
@@ -47,6 +59,7 @@ const UserMutations = {
         },
         resolve(parent, args){
             let user = new UserMongo(UserLogic.createNewUser(args)); //Call to board logic
+            user.jwtToken = UserLogic.getToken(user.id);
             return user.save();
         }
     }

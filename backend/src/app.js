@@ -3,19 +3,29 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphql/initialization');
-const jwt = require('express-jwt')
+const jwt = require('jsonwebtoken');
 
 //Setting up Environment Variables...
 const dotenv = require('dotenv');
 dotenv.config();
-const { DB_URI } = process.env;
+const { DB_URI, JWT_SECRET } = process.env;
 
+
+const getToken = (user) => jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '30 days' });
+
+const getUserFromToken = async (token, db) => {
+  if(!token) return null;
+
+  const tokenData = jwt.verify(token, JWT_SECRET);
+  if(!tokenData?.id) return null;
+  return await db.collection('users').findOne({ _id: mongoose.isValidObjectId(tokenData.id) });
+}
 
 //Connecting to the MongoDB Database...
 mongoose.connect(DB_URI);
 mongoose.connection.once('open', ()=>{
   console.log("We have made database connection!");
-});
+});/*
 
 // authentication middleware
 const authMiddleware = jwt({
@@ -23,7 +33,7 @@ const authMiddleware = jwt({
 })
 
 app.use(authMiddleware)
-
+*/
 
 var app = express(); //Starting Express...
 

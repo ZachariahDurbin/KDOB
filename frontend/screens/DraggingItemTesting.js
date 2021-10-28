@@ -65,9 +65,13 @@ export default class DraggingItemTesting extends Component {
 let CIRCLE_RADIUS = 30;
 let styles = StyleSheet.create({
   circle: {
-    backgroundColor: "skyblue",
-    width: CIRCLE_RADIUS * 2,
-    height: CIRCLE_RADIUS * 2,
-    borderRadius: CIRCLE_RADIUS
+    margin: "auto",
+    backgroundColor: "#550055",
+    color: "#550055",
+    width: CIRCLE_RADIUS * 1,
+    height: CIRCLE_RADIUS * 1,
+    borderRadius: CIRCLE_RADIUS,
+    zIndex: 2,
+    elevation: 3
   }
 });

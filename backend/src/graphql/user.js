@@ -44,7 +44,12 @@ const UserQueries = {
             jwtToken: { type: GraphQLString }
         },
         resolve(parents, args){
-
+            userToken = UserLogic.getUserFromToken(args.jwtToken)
+            console.log(userToken 
+                );
+            console.log(args.id);
+            console.log("Do they match? " + (( userToken === args.id) ? 'Yes' : 'No'));
+            return 
         }
     }
 }

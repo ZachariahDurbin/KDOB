@@ -12,7 +12,11 @@ const boardSchema = new Schema({
             color: String,
             amount: Number
         }
-    ]
+    ],
+    dice: {
+        one: String,
+        two: String
+    }
 
 });
 

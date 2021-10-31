@@ -40,6 +40,12 @@ var app = express(); //Starting Express...
 var cors = require('cors');
 
 app.use(cors()); // Use this after the variable declaration
+
+const loggingMiddleware = (req, res, next) => {
+  console.log('ip:', req.ip);
+  next();
+}
+app.use(loggingMiddleware);
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: false

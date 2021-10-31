@@ -134,9 +134,10 @@ const BoardMutations = {
         },
         async resolve(parent, args){
             let board = BoardLogic.updateBoard(await BoardMongo.findById(args.id),args);
-            return board.save();
+            if(board == "There has been an illegal move") return board;
+            else return board.save();
         }
-    }
+    },
 }
 
 

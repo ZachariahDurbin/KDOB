@@ -20,17 +20,15 @@ const createNewUser = (args) =>{
 
 const getToken = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: '30 days' });
 
-/*
-const getUserFromToken = async (token, db) => {
+const getUserFromToken = async (token) => {
   if(!token) return null;
 
-  const tokenData = jwt.verify(token, JWT_SECRET);
+  const tokenData = jwt.verify(token, JWT_SECRET); 
   if(!tokenData?.id) return null;
-  return await db.collection('users').findOne({ _id: mongoose.isValidObjectId(tokenData.id) });
+  else return tokenData.id;
 }
-*/
-
 module.exports= {
     createNewUser,
-    getToken
+    getToken,
+    getUserFromToken
 }
